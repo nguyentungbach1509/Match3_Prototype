@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15310049d9a56dd4b8d8bdbfe186a8f0, type: 3}
+  m_Name: RoomSO
+  m_EditorClassIdentifier: 
+  width: 5
+  height: 5
+  tiles:
+  - {fileID: 11400000, guid: 49532315c4b46824ba3a31c89dafa291, type: 2}
+  - {fileID: 11400000, guid: 46016b847f91f6445b060d022ecfd009, type: 2}
+  - {fileID: 11400000, guid: c8e819d13fb80af4e9d26f0655e98c66, type: 2}
+  - {fileID: 11400000, guid: b88a205e2ce2cbb4e86217c99dc6a2fd, type: 2}

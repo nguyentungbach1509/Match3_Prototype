@@ -1,0 +1,19 @@
+﻿
+
+Cách sử dụng của ObserveEvent
+
+Tạo một Class Event cần dùng
+
+Trong Class tạo các event kế thừa thừ BaseEvent
+
+Có 2 loại Event phụ thuộc vào nhu cầu dùng
+
+1. Global Event, dùng static trong trường hợp event sử dụng chung, tất cả đều lắng nghe cùng 1 event
+
+2. Instance Event, dùng trong trường hợp 1 event chỉ 1 instance lắng nghe. 
+
+Ví dụ: Để tránh trường hợp như sau. 
+
+Event mất máu ở trong CharacterStats:
+- Nếu chỉ sử dụng global event, thì chỉ cần 1 character mất máu, thì tất cả các UIHealthbar của các character khác sẽ đều update theo lượng máu đấy => sai mong muốn.
+- Nếu sử dụng instace event, thì chỉ instace của character nào lắng nghe event của character đấy.
