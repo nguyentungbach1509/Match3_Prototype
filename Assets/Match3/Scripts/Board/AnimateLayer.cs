@@ -42,7 +42,6 @@ namespace Match3.Scripts
             go.transform.localScale = Vector3.one;
             go.transform.SetParent(transform, false);
             go.Sprite.sprite = tile.sprite;
-            go.Sprite.color = tile.color;
             return go;
         }
 
@@ -73,7 +72,6 @@ namespace Match3.Scripts
                     callBack?.Invoke();
                     cellViewPool.Despawn(view);
                 });
-            
         }
 
     }

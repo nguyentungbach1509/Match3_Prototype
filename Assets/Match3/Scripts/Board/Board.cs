@@ -2,7 +2,6 @@
 using Match3.Manager;
 using Match3.Subscripts;
 using Match3.SubScripts;
-using Mono.Cecil.Cil;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,6 +29,8 @@ namespace Match3.Scripts
         private MatchFinder matchFinder;
         private Coroutine matchCoroutine;
 
+        int minX, maxX, minY, maxY;
+
         public int Width => width;
         public int Height => height;
 
@@ -38,9 +39,16 @@ namespace Match3.Scripts
             matchFinder = new MatchFinder(this);
             boardDict = new();
             animLayer = layer;
-            for(int x = -width/2; x < width/2; x++)
+
+            minX = -width / 2;
+            maxX = width / 2 - 1;
+
+            minY = -height;
+            maxY = -1;
+
+            for (int x = -width/2; x <= maxX; x++)
             {
-                for(int y =-height/2; y < height/2; y++)
+                for(int y =minY; y <= maxY; y++)
                 {
                     Vector3Int position = new Vector3Int(x, y, 0);
                     tileMapBG.SetTile(position, tileBg);
@@ -185,17 +193,12 @@ namespace Match3.Scripts
             }
 
             yield return sequence.WaitForCompletion();
-            matches.Clear();
+            //matches.Clear();
         }
 
         private IEnumerator GravityDrop()
         {
             Sequence sequence = DOTween.Sequence();
-
-            int minX = -width / 2;
-            int maxX = width / 2 - 1;
-            int minY = -height / 2;
-            int maxY = height / 2 - 1;
 
             // cho mỗi cột
             for (int x = minX; x <= maxX; x++)
@@ -239,10 +242,6 @@ namespace Match3.Scripts
 
         public IEnumerator SpawnNewTiles()
         {
-            int minX = -width / 2;
-            int maxX = width / 2 - 1;
-            int minY = -height / 2;
-            int maxY = height / 2 - 1;
 
             Sequence seq = DOTween.Sequence();
 

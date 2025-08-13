@@ -8,6 +8,7 @@ namespace Match3.Scripts.Character
         [SerializeField] protected CharacterCanvas canvas;
 
         protected CharacterStats stats;
+        public CharacterStats Stats => stats;
 
         public virtual void Init()
         {

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CharacterBase.Base
+namespace Scripts
 {
     public enum AnimationEventType
     {

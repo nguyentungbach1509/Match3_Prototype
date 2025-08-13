@@ -14,18 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileCells:
   - Type: 0
-    Tile: {fileID: 11400000, guid: 68b1047cef74f1b4fb6d357b71d3df34, type: 2}
+    Tile: {fileID: 11400000, guid: cc3c492a311887d439ee651bb40c68c7, type: 2}
   - Type: 1
-    Tile: {fileID: 11400000, guid: be323e8cf28719d46b9da915cb4e6382, type: 2}
+    Tile: {fileID: 11400000, guid: 56694180fdbf15c4cafce371a28ba692, type: 2}
   - Type: 2
-    Tile: {fileID: 11400000, guid: 1babcf791325f85419de20b28de9aec4, type: 2}
+    Tile: {fileID: 11400000, guid: e1a718d8b67546c43b4184c6a19d2ce7, type: 2}
   - Type: 3
-    Tile: {fileID: 11400000, guid: e595b5726e086624f8ce30ecdd05b48a, type: 2}
+    Tile: {fileID: 11400000, guid: 2f8cbcf180310a34c80119f52c13e46a, type: 2}
   - Type: 4
-    Tile: {fileID: 11400000, guid: dd4696074cfa4384d86041e5f4b2e4f7, type: 2}
+    Tile: {fileID: 11400000, guid: c28349669c07e194a804322a3454c0a3, type: 2}
   - Type: 5
-    Tile: {fileID: 11400000, guid: 7ec25d41ad1a8124db35b14e352d68f1, type: 2}
+    Tile: {fileID: 11400000, guid: 77acf2c6e3da90a4cb63498279a3c5b0, type: 2}
   - Type: 6
-    Tile: {fileID: 11400000, guid: 9289f4b426cd991498cd9e94ef7c78fe, type: 2}
-  - Type: 7
-    Tile: {fileID: 11400000, guid: ac1faafd845392240ad08350864dcaea, type: 2}
+    Tile: {fileID: 11400000, guid: abb15d8bea8275647bc2c56e619fb473, type: 2}

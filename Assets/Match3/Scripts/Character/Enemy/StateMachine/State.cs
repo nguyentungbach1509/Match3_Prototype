@@ -11,17 +11,17 @@ namespace Match3.Scripts.Character
             this.enemy = enemy;
         }
 
-        public void OnEnter()
+        public virtual void OnEnter()
         {
             
         }
 
-        public void OnExecute()
+        public virtual void OnExecute()
         {
             
         }
 
-        public void OnExit()
+        public virtual void OnExit()
         {
             
         }

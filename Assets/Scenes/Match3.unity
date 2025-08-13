@@ -407,8 +407,8 @@ MonoBehaviour:
   tileMapBG: {fileID: 1510978893}
   tileBg: {fileID: 11400000, guid: 7c5736ccf31394942858377c6a71cd3c, type: 2}
   tileMapCells: {fileID: 280262705}
-  width: 6
-  height: 6
+  width: 8
+  height: 8
 --- !u!1 &786081985
 GameObject:
   m_ObjectHideFlags: 0

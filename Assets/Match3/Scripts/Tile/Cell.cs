@@ -1,3 +1,4 @@
+using Match3.Scripts.Character;
 using Match3.Subscripts;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -5,7 +6,7 @@ namespace Match3.Scripts
 {
     public enum ECellType
     {
-        Red, Green, Blue, Yellow, Cyan, Black, Gray, Magenta
+        Sword, Shield, Skull, Health, Fire, Ice, Cloak
     }
 
     public class Cell
@@ -15,8 +16,8 @@ namespace Match3.Scripts
         private ECellType cellType;
         private Tile tile;
 
-        private Tile saveTile;
-        
+        private float damage;
+        private float time;
 
         public ECellType CellType => cellType;
         public Tile Tile => tile;
@@ -28,6 +29,9 @@ namespace Match3.Scripts
             this.position = position;
             cellType = Match3Sub.GetRandom();
             tile = Match3Sub.GetTile(cellType);
+            CellStats stats = Match3Sub.GetStats(cellType);
+            damage = stats.Damage;
+            time = stats.Time;
         }
 
         public virtual bool Compare(Cell other)
@@ -40,6 +44,12 @@ namespace Match3.Scripts
             this.square = square;
             this.position = square.Position;
         }
+
+        public virtual void ApplyEffect(CharacterBase target, CharacterBase source)
+        {
+            
+        }
     }
+
 }
 
