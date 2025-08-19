@@ -13,6 +13,7 @@ namespace Match3.Scripts.Character
         public virtual void Init()
         {
             stats = new CharacterStats(data, canvas);
+            canvas.StatusController.Init(stats);
         }
     }
 }

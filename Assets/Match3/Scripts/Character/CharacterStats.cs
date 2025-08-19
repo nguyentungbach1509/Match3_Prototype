@@ -54,6 +54,11 @@ namespace Match3.Scripts.Character
                 OnDie?.Invoke();
             }
         }
+
+        public void ApplyStatus(EStatus status)
+        {
+
+        }
     }
 }
 

@@ -16,9 +16,6 @@ namespace Match3.Scripts
         private ECellType cellType;
         private Tile tile;
 
-        private float damage;
-        private float time;
-
         public ECellType CellType => cellType;
         public Tile Tile => tile;
         public Vector3Int Position => position;
@@ -29,9 +26,6 @@ namespace Match3.Scripts
             this.position = position;
             cellType = Match3Sub.GetRandom();
             tile = Match3Sub.GetTile(cellType);
-            CellStats stats = Match3Sub.GetStats(cellType);
-            damage = stats.Damage;
-            time = stats.Time;
         }
 
         public virtual bool Compare(Cell other)
@@ -45,10 +39,6 @@ namespace Match3.Scripts
             this.position = square.Position;
         }
 
-        public virtual void ApplyEffect(CharacterBase target, CharacterBase source)
-        {
-            
-        }
     }
 
 }
