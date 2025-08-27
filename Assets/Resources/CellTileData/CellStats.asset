@@ -15,22 +15,22 @@ MonoBehaviour:
   stats:
   - Type: 0
     Damage: 10
-    Time: 0
+    status: 0
   - Type: 1
     Damage: 5
-    Time: 0
+    status: 4
   - Type: 2
     Damage: 5
-    Time: 0
+    status: 0
   - Type: 3
     Damage: 10
-    Time: 0
+    status: 5
   - Type: 4
     Damage: 8
-    Time: 5
+    status: 1
   - Type: 6
     Damage: 1
-    Time: 0
+    status: 3
   - Type: 5
     Damage: 3
-    Time: 3
+    status: 2

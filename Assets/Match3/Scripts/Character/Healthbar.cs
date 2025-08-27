@@ -1,3 +1,4 @@
+﻿using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,7 @@ public class Healthbar : MonoBehaviour
 
     public void UpdateHp(float hp)
     {
-        fillImg.fillAmount = hp;
+        fillImg.DOKill(); // huỷ tween cũ trên fillImg trước
+        fillImg.DOFillAmount(hp, smoothTime).SetEase(Ease.OutCubic);
     }
 }

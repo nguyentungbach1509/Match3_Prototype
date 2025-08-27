@@ -7,8 +7,8 @@ namespace Match3.Scripts.Character
         [SerializeField] Healthbar hpBar;
         [SerializeField] StatusController statusController;
         public Healthbar HpBar => hpBar;
-        public StatusController StatusController => statusController;
-
+        public StatusController StatusCtrl => statusController;
+        
     }
 }
 

@@ -1,3 +1,5 @@
+using Match3.Scripts.Character;
+using Match3.Subscripts;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,7 +26,6 @@ namespace Match3.Scripts
     {
         public ECellType Type;
         public float Damage;
-        public float Time;
     }
 }
 

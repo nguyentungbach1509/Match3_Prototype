@@ -1,5 +1,7 @@
 ﻿using DG.Tweening;
 using Match3.Manager;
+using Match3.Scripts.Character;
+using Match3.Scripts.Level;
 using Match3.Subscripts;
 using Match3.SubScripts;
 using System.Collections;
@@ -29,16 +31,24 @@ namespace Match3.Scripts
         private MatchFinder matchFinder;
         private Coroutine matchCoroutine;
 
+        private EnemyBase enemy;
+        private Player player;
+
+        private LevelController levelCtrl;
+
         int minX, maxX, minY, maxY;
 
         public int Width => width;
         public int Height => height;
 
-        public void Init(AnimateLayer layer)
+        public void Init(LevelController level, AnimateLayer layer, EnemyBase enemy)
         {
             matchFinder = new MatchFinder(this);
+            levelCtrl = level;
+            player = level.Player;
             boardDict = new();
             animLayer = layer;
+            this.enemy = enemy;
 
             minX = -width / 2;
             maxX = width / 2 - 1;
@@ -84,6 +94,8 @@ namespace Match3.Scripts
             {
                 if (!boardDict.TryGetValue(input.MousePos(), out var targetSquare))
                     return;
+
+                if (!selectSquare.IsNeighbour(targetSquare)) return;
 
                 // 1. Clear tilemap gốc
                 tileMapCells.SetTile(selectSquare.Position, null);
@@ -166,12 +178,33 @@ namespace Match3.Scripts
                     var matches = matchFinder.FindAllMatches();
                     if (matches.Count <= 0) break;
 
+                    // Áp dụng hiệu ứng dựa trên loại ô vừa match
+                    ApplyMatchEffects();
                     yield return ClearMatches(matches);
 
                     yield return GravityDrop();
                     yield return SpawnNewTiles();
                 }
                 input.Disable = false;
+            }
+        }
+
+        private void ApplyMatchEffects()
+        {
+            if (enemy == null) return;
+            var groups = matchFinder.MatchedGroup;
+            foreach (var kv in groups)
+            {
+                var positions = kv.Value;
+                if (positions == null || positions.Count == 0) continue;
+                var representativePos = positions[0];
+                if (!boardDict.TryGetValue(representativePos, out var square)) continue;
+                if (square == null || square.Cell == null) continue;
+                if (square.Cell.CellType != ECellType.Health &&
+                    square.Cell.CellType != ECellType.Shield &&
+                    square.Cell.CellType != ECellType.Cloak) enemy.Status.Apply(square.Cell.CellType);
+
+                else player.Status.Apply(square.Cell.CellType); 
             }
         }
 

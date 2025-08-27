@@ -20,11 +20,12 @@ namespace Match3.Scripts.Character
         {
             cachedStates = new Dictionary<EState, IState>();
             this.enemy = enemy;
+            ChangeState(EState.Idle);
         }
 
         public void ChangeState(EState stateType)
         {
-            currentState.OnExit();
+            currentState?.OnExit();
             if(cachedStates.TryGetValue(stateType, out IState state)) currentState = state;
             else currentState = SelecetedState(stateType);
             currentState.OnEnter();

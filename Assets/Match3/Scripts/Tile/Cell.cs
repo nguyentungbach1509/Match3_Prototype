@@ -1,14 +1,12 @@
 using Match3.Scripts.Character;
+using Match3.Scripts.Data;
 using Match3.Subscripts;
+using Match3.SubScripts;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 namespace Match3.Scripts
 {
-    public enum ECellType
-    {
-        Sword, Shield, Skull, Health, Fire, Ice, Cloak
-    }
-
+   
     public class Cell
     {
         private TileSquare square;
@@ -16,9 +14,11 @@ namespace Match3.Scripts
         private ECellType cellType;
         private Tile tile;
 
+
         public ECellType CellType => cellType;
         public Tile Tile => tile;
         public Vector3Int Position => position;
+        
 
         public Cell(TileSquare square, Vector3Int position)
         {

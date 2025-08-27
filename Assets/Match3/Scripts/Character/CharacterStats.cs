@@ -1,3 +1,4 @@
+using Match3.Subscripts;
 using System;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ namespace Match3.Scripts.Character
         protected float damage;
         protected float maxHp;
         protected float hp;
+        protected int armor;
 
         protected CharacterCanvas canvas;
 
@@ -18,9 +20,11 @@ namespace Match3.Scripts.Character
         public float Damage => damage;
         public float MaxHp => maxHp;
         public float HP => hp;
+        public int Armor => armor;    
 
         private Action<float> OnTakeDamage;
         private Action OnDie;
+        public Action<int> OnCountChange;
 
         public CharacterStats(StatsData data, CharacterCanvas canvas)
         {
@@ -35,29 +39,31 @@ namespace Match3.Scripts.Character
 
         public void TakeDamage(float damage)
         {
-            hp -= damage;
+            if(CheckStatusBeforeTakeDamage()) return;
+            hp = Mathf.Clamp(hp-damage, 0, maxHp);
             OnTakeDamage?.Invoke(hp/maxHp);
-            if (damage <= 0)
-            {
-                hp = 0;
-                OnDie?.Invoke();
-            }
+            if (hp <= 0)OnDie?.Invoke();
         }
 
         public void TakeDamage(DamageInfor damageInfor)
         {
-            hp -= damageInfor.Damage;
+            if(CheckStatusBeforeTakeDamage()) return;
+            hp = Mathf.Clamp(hp - damageInfor.Damage, 0, maxHp);
             OnTakeDamage?.Invoke(hp / maxHp);
-            if (damage <= 0)
-            {
-                hp = 0;
-                OnDie?.Invoke();
-            }
+            if (hp <= 0)OnDie?.Invoke();
         }
 
-        public void ApplyStatus(EStatus status)
+        private bool CheckStatusBeforeTakeDamage()
         {
-
+            bool preventDamage = canvas.StatusCtrl.GotStatus(ECellType.Cloak) ||
+                canvas.StatusCtrl.GotStatus(ECellType.Shield);
+            if (!preventDamage) return false;
+            StatusEffect effect = null;
+            if (canvas.StatusCtrl.GotStatus(ECellType.Cloak)) effect = canvas.StatusCtrl.GetStatus(ECellType.Cloak);
+            else if (canvas.StatusCtrl.GotStatus(ECellType.Shield)) effect = canvas.StatusCtrl.GetStatus(ECellType.Shield);
+            effect.CountStack = Mathf.Clamp(effect.CountStack-1, 0, effect.CountStack);
+            OnCountChange?.Invoke(effect.CountStack);
+            return true;
         }
     }
 }

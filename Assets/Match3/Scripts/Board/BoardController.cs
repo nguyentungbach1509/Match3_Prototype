@@ -1,3 +1,5 @@
+using Match3.Scripts.Character;
+using Match3.Scripts.Level;
 using Match3.Subscripts;
 using UnityEngine;
 
@@ -8,20 +10,17 @@ namespace Match3.Scripts
         [SerializeField] Board board;
         [SerializeField] AnimateLayer animLayer;
 
-        private void Start()
-        {
-            Init();
-        }
+        public Board Board => board;
 
-        private void Update()
-        {
-            board.UpdateBoard();
-        }
-
-        public void Init()
+        public void Init(LevelController level, EnemyBase enemy)
         {
             Match3Sub.LoadCellTileData();
-            board.Init(animLayer);
+            board.Init(level, animLayer, enemy);
+        }
+
+        public void UpdateBoard()
+        {
+            board.UpdateBoard();
         }
     }
 }

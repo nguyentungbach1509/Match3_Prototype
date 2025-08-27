@@ -1,15 +1,12 @@
+﻿using DG.Tweening;
 using Match3.Scripts;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Random = UnityEngine.Random;
 
 namespace Match3.Subscripts
 {
-    public enum EDirection
-    {
-        Up, Down, Left, Right
-    }
-
     public static class Match3Sub
     {
         private static readonly string path = "CellTileData/Data";
@@ -58,5 +55,19 @@ namespace Match3.Subscripts
         public static Tile GetTile(ECellType cellType)=> data.GetTile(cellType);
         
     }
+
+    public static class DOTweenExtensions
+    {
+        public static Tween DOFill(this UnityEngine.UI.Image img, float endValue, float duration)
+        {
+            return DOTween.To(
+                () => img.fillAmount,
+                x => img.fillAmount = x,
+                endValue,
+                duration
+            ).From(1f);
+        }
+    }
+
 }
 
