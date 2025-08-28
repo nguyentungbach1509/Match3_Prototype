@@ -2,6 +2,7 @@ using DG.Tweening;
 using Match3.Subscripts;
 using SubScript.Pooling;
 using TMPro;
+using UnityEditor.Build;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,13 +18,13 @@ namespace Match3.Scripts.Character
         private StatusController controller;
         private ECellType cellType;
 
-        public void Apply(StatusEffect status, StatusController controller, CharacterStats charStats)
+        public void Apply(StatusEffect status, StatusController controller, CharacterStats charStats, int multi=1)
         {
             fillImg.sprite = status.Icon;
             blurImg.sprite = status.Icon;
             this.controller = controller;
             cellType = status.Type;
-            status.OnApply(UpdateCounter, () => RemoveUI(status.Type, controller), fillImg);
+            status.OnApply(UpdateCounter, () => RemoveUI(status.Type, controller), fillImg, multi);
             charStats.OnCountChange += UpdateCounter;
             stats = charStats;
         }

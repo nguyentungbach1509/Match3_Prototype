@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ed5b3b4cc71ea5428ceb6d3a1f7f290, type: 3}
   m_Name: StatusSkull
   m_EditorClassIdentifier: 
-  cellType: 2
+  cellType: 3
   damage: 5
   duration: 0
   tick: 0

@@ -26,12 +26,13 @@ namespace Match3.Scripts.Character
             pool = PoolManager.CreateOrGetPool(uiPrefab);
         }
 
-        public void Apply(ECellType status)
+        public void Apply(ECellType status, int multi=1)
         {
             if(cachedStatus.ContainsKey(status) && cachedStatusUI.ContainsKey(status))
             {
                 StatusEffect statusEff = cachedStatus[status];
-                cachedStatusUI[status].Apply(statusEff, this, stats);
+                if(multi > 1)
+                cachedStatusUI[status].Apply(statusEff, this, stats, multi);
                 return;
             }  
             StatusEffect statusEffect = data.GetStatus(status).CreateEffect(stats);
@@ -40,7 +41,7 @@ namespace Match3.Scripts.Character
             {
                 StatusUI statusUI = pool.Spawn(Vector3.zero, Quaternion.identity);
                 statusUI.transform.SetParent(transform, false);
-                statusUI.Apply(statusEffect, this, stats);
+                statusUI.Apply(statusEffect, this, stats, multi);
                 cachedStatusUI[status] = statusUI;
                 return;
             }

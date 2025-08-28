@@ -10,8 +10,9 @@ namespace Match3.Scripts.Character
         {
         }
 
-        public override void OnApply(Action<int> OnCountChange, Action OnComplete, Image image = null)
+        public override void OnApply(Action<int> OnCountChange, Action OnComplete, Image image = null, int multi=1)
         {
+            DamageSetting(multi);
             stats.TakeDamage(-damage);
         }
     }

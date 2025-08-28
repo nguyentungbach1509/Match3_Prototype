@@ -69,7 +69,7 @@ namespace Match3.Scripts
                 }
             }
             isInit = true;
-            //ProgressMatches();
+            ProgressMatches();
         }
 
         public void UpdateBoard()
@@ -113,7 +113,13 @@ namespace Match3.Scripts
                         selectSquare.SwapCell(targetSquare);
                         tileMapCells.SetTile(selectSquare.Position, selectSquare.Cell.Tile);
                         tileMapCells.SetTile(targetSquare.Position, targetSquare.Cell.Tile);
-                        ProgressMatches();
+                        if(selectSquare.Cell.SubType==ECellType.Target || 
+                        targetSquare.Cell.SubType==ECellType.Target)
+                        {
+                            ProgressMatchesTarget(selectSquare.Cell.SubType == ECellType.Target ?
+                                targetSquare.Cell.CellType : selectSquare.Cell.CellType);
+                        }
+                        else ProgressMatches();
                     }
                     else
                     {
@@ -133,6 +139,8 @@ namespace Match3.Scripts
 
         private bool IsSwapable(TileSquare square)
         {
+            if(selectSquare.Cell.SubType == ECellType.Target || 
+                square.Cell.SubType == ECellType.Target)  return true; 
             // Swap tạm
             selectSquare.SwapCell(square);
 
@@ -189,6 +197,30 @@ namespace Match3.Scripts
             }
         }
 
+        public void ProgressMatchesTarget(ECellType type)
+        {
+            if (matchCoroutine != null) StopCoroutine(matchCoroutine);
+            matchCoroutine = StartCoroutine(Progress());
+
+            IEnumerator Progress()
+            {
+                input.Disable = true;
+                while (true)
+                {
+                    var matches = matchFinder.FindAllTargetMatches(type);
+                    if (matches.Count <= 0) break;
+
+                    // Áp dụng hiệu ứng dựa trên loại ô vừa match
+                    ApplyMatchEffects();
+                    yield return ClearMatches(matches);
+
+                    yield return GravityDrop();
+                    yield return SpawnNewTiles();
+                }
+                input.Disable = false;
+            }
+        }
+
         private void ApplyMatchEffects()
         {
             if (enemy == null) return;
@@ -197,6 +229,15 @@ namespace Match3.Scripts
             {
                 var positions = kv.Value;
                 if (positions == null || positions.Count == 0) continue;
+                int goDouble = 1;
+                for(int i = 0; i < positions.Count; i++)
+                {
+                    if (boardDict[positions[i]].Cell.SubType == ECellType.Double)
+                    {
+                        goDouble = 2;
+                        break;
+                    }
+                }
                 var representativePos = positions[0];
                 if (!boardDict.TryGetValue(representativePos, out var square)) continue;
                 if (square == null || square.Cell == null) continue;
@@ -204,7 +245,7 @@ namespace Match3.Scripts
                     square.Cell.CellType != ECellType.Shield &&
                     square.Cell.CellType != ECellType.Cloak) enemy.Status.Apply(square.Cell.CellType);
 
-                else player.Status.Apply(square.Cell.CellType); 
+                else player.Status.Apply(square.Cell.CellType, goDouble); 
             }
         }
 
@@ -216,13 +257,30 @@ namespace Match3.Scripts
             {
                 if(!boardDict.TryGetValue(match, out var square)) continue;
                 if(square == null) continue;
-
+                
                 var anim = animLayer.AnimateClear(grid, square.Cell, () =>
                 {
                     square.SetCell(null);
                     tileMapCells.SetTile(match, null);
                 });
                 sequence.Join(anim);
+            }
+
+            foreach(var group in matchFinder.MatchedGroup)
+            {
+                if(group.Value.Count > 3)
+                {
+                    (ECellType, Vector3Int) specialCell = matchFinder.GetSpecialCell(group.Key);
+                    Cell newCell = new Cell(boardDict[specialCell.Item2], specialCell.Item2, specialCell.Item1);
+                    var anim = animLayer.AnimateMove(grid, newCell, specialCell.Item2, specialCell.Item2, () =>
+                    {
+                        boardDict[specialCell.Item2].SetCell(newCell);
+                        tileMapCells.SetTile(specialCell.Item2, newCell.Tile);
+                        newCell.SetCellType(group.Key);
+                    });
+
+                    sequence.Join(anim);
+                }
             }
 
             yield return sequence.WaitForCompletion();

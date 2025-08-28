@@ -13,18 +13,19 @@ namespace Match3.Scripts
         private Vector3Int position;
         private ECellType cellType;
         private Tile tile;
-
+        private ECellType subType;
 
         public ECellType CellType => cellType;
         public Tile Tile => tile;
         public Vector3Int Position => position;
-        
+        public ECellType SubType => subType;
 
-        public Cell(TileSquare square, Vector3Int position)
+        public Cell(TileSquare square, Vector3Int position, ECellType type=ECellType.None)
         {
             this.square = square;
             this.position = position;
-            cellType = Match3Sub.GetRandom();
+            cellType = type == ECellType.None ? Match3Sub.GetRandom() : type;
+            subType = cellType;
             tile = Match3Sub.GetTile(cellType);
         }
 
@@ -39,6 +40,7 @@ namespace Match3.Scripts
             this.position = square.Position;
         }
 
+        public void SetCellType(ECellType cellType) => this.cellType = cellType;
     }
 
 }

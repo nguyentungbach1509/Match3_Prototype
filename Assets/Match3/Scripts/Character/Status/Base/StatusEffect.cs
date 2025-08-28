@@ -18,15 +18,20 @@ public class StatusEffect
     protected float timeRemaining;
 
     protected bool applyOnUI;
+    protected float saveDmg;
+    protected float saveDmgPerTick;
 
     public float Damage => damage;
-    
+
     public float Duration => duration;
 
     public float Tick => tick;
+    
     public float DamagePerTick => damagePerTick;
+        
     public ECellType Type => cellType;
     public Sprite Icon => data.Icon;
+    
     public int CountStack
     {
         get => countStack;
@@ -44,16 +49,33 @@ public class StatusEffect
         tick = data.Tick;
         damagePerTick = data.DamagePerTick;
         this.data = data;
+        saveDmg = damage;
+        saveDmgPerTick = damagePerTick;
     }
 
-    public virtual void OnApply(Action<int> OnCountChange, Action OnComplete, Image fillImg=null)
+    public virtual void OnApply(Action<int> OnCountChange, Action OnComplete, Image fillImg=null, int multi=1)
     {
-        timeRemaining = duration;
         countStack++;
+        DamageSetting(multi);
+        timeRemaining = duration;
         OnCountChange(countStack);
     }
 
     protected virtual void OnTick(Action<int> OnCountChange, Action OnComplete, Image fillImg=null) { }
 
     protected virtual void OnExpired(Action OnCompleted) { }
+
+    protected virtual void DamageSetting(int multi=1)
+    {
+        if (multi > 1)
+        {
+            damage *= multi;
+            damagePerTick *= multi;
+        }
+        else
+        {
+            damage = saveDmg;
+            damagePerTick = saveDmgPerTick;
+        }
+    }
 }

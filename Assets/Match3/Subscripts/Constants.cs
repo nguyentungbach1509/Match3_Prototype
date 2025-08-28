@@ -11,7 +11,8 @@ namespace Match3.Subscripts
 
     public enum ECellType
     {
-        Sword, Shield, Skull, Health, Fire, Ice, Cloak
+        None, Sword, Shield, Skull, Health, Fire, Ice, Cloak, 
+        Double, Target
     }
 
 

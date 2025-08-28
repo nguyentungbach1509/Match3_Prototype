@@ -21,8 +21,8 @@ namespace Match3.Scripts.Level
         {
             enemy = spawn.EnemySpawner.SpawnEnemy(Constants.Normal_Enemy, 
                 enemyContainer.position, Quaternion.identity, enemyContainer);
-            boardcontroller.Init(this, enemy);
             player.Init();
+            boardcontroller.Init(this, enemy);
             isInitialize = true;
         }
 

@@ -11,8 +11,9 @@ namespace Match3.Scripts.Character
             applyOnUI = true;
         }
 
-        public override void OnApply(Action<int> OnCountChange, Action OnComplete, Image image = null)
+        public override void OnApply(Action<int> OnCountChange, Action OnComplete, Image image = null, int multi =1)
         {
+            DamageSetting(multi);
             timeRemaining = duration;
             countStack += (int)damage;
             OnCountChange(countStack);

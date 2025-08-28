@@ -2,6 +2,7 @@
 using Match3.Subscripts;
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Match3.Scripts.Character
@@ -16,7 +17,7 @@ namespace Match3.Scripts.Character
             applyOnUI = true;
         }
 
-        public override void OnApply(Action<int> OnCountChange, Action OnComplete, Image image = null)
+        public override void OnApply(Action<int> OnCountChange, Action OnComplete, Image image = null, int multi = 1)
         {
             base.OnApply(OnCountChange, OnComplete);
             if (countStack > 0)
@@ -58,12 +59,29 @@ namespace Match3.Scripts.Character
             });
         }
 
+        protected override void DamageSetting(int multi)
+        {
+            base.DamageSetting(multi);
+            if (multi > 1)
+            {
+                timeRemaining *= multi;
+                countStack *= multi;
+            }
+            else
+            {
+                timeRemaining = duration;
+                countStack++;
+            }
+        }
+
         protected override void OnExpired(Action OnCompleted)
         {
             tickSequence?.Kill();
             tickSequence = null;
             countStack = 0;
         }
+
+        
     }
 }
 

@@ -5,12 +5,21 @@ namespace Match3.Manager
 {
     public enum EGameState
     {
-        Normal, Pause, Start
+        Normal, Pause, Start, Lose, Win
     } 
 
     public class GameManager : Singleton<GameManager>
     {
         [SerializeField] CombatManager combat;
+
+        private EGameState state;
+
+        public EGameState State
+        {
+            get => state;
+            set => state = value;
+        }
+
         public CombatManager Combat => CombatManager.Instance;
 
         private void Start()

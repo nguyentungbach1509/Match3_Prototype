@@ -25,7 +25,6 @@ namespace Match3.Scripts
     public class CellStats
     {
         public ECellType Type;
-        public float Damage;
     }
 }
 

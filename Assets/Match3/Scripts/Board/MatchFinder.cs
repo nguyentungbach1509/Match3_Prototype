@@ -18,7 +18,6 @@ namespace Match3.SubScripts
         private Dictionary<ECellType, List<Vector3Int>> matchedGroup;
 
         public Dictionary<ECellType, List<Vector3Int>> MatchedGroup => matchedGroup;
-
         public MatchFinder(Board board)
         {
             this.board = board;
@@ -43,6 +42,24 @@ namespace Match3.SubScripts
             for (int x = -width / 2; x < width / 2; x++)
                 ScanLine(matched, new Vector3Int(x, -height, 0), Vector3Int.up, height);
 
+            return matched;
+        }
+
+        public HashSet<Vector3Int> FindAllTargetMatches(ECellType type)
+        {
+            matched.Clear();
+            matchedGroup.Clear();
+
+            // Quét ngang
+            for (int y = -height; y < 0; y++)
+            {
+                for (int x = -width / 2; x < width / 2; x++)
+                {
+                    Vector3Int posTarget = new Vector3Int(x, y, 0);
+                    TileSquare square = GetTileSquare(posTarget);
+                    if (square.Cell.CellType == type) matched.Add(posTarget);
+                }
+            }
             return matched;
         }
 
@@ -89,7 +106,7 @@ namespace Match3.SubScripts
 
             // Check cuối dòng
             if (count >= 3) AddRange(matches, start + dir * (length - 1), dir, count);
-            
+
         }
 
         private void AddRange(HashSet<Vector3Int> set, Vector3Int end, Vector3Int dir, int count)
@@ -98,14 +115,27 @@ namespace Match3.SubScripts
 
             if (!matchedGroup.ContainsKey(cellType)) matchedGroup[cellType] = new();
 
+            List<Vector3Int> group = new();
+
             for (int k = 0; k < count; k++)
             {
                 Vector3Int pos = end - dir * k;
                 set.Add(pos);
                 matchedGroup[cellType].Add(pos);
+                group.Add(pos);
             }
+
         }
 
+        public (ECellType, Vector3Int) GetSpecialCell(ECellType cellType)
+        {
+            List<Vector3Int> group = matchedGroup[cellType];
+            int count = group.Count;
+            if (count < 4) return (ECellType.None, Vector3Int.zero);
+            Vector3Int pos = group[group.Count / 2];
+            if (count == 4) return (ECellType.Double, pos);
+            return (ECellType.Target, pos);
+        }
     }
 }
 

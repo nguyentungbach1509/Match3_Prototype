@@ -10,9 +10,8 @@ namespace Match3.Subscripts
     public static class Match3Sub
     {
         private static readonly string path = "CellTileData/Data";
-        private static readonly string path_stats = "CellTileData/CellStats";
         private static TileCellData data;
-        private static CellStatsSO cellStats;
+
         
 
         public static readonly Dictionary<EDirection, Vector3Int> Directs = new()
@@ -44,12 +43,10 @@ namespace Match3.Subscripts
             }
         }
 
-        public static CellStats GetStats(ECellType type) => cellStats.GetStats(type);
 
         public static void LoadCellTileData()
         {
             data = Resources.Load<TileCellData>(path);
-            cellStats = Resources.Load<CellStatsSO>(path_stats);
         }
 
         public static Tile GetTile(ECellType cellType)=> data.GetTile(cellType);
